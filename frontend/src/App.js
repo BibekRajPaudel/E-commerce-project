@@ -9,6 +9,7 @@ import Loader from "./Component/Layout/Loader/Loader";
 import ProductDetails from "./Component/Product/ProductDetails.js"
 import Products from "./Component/Product/Products";
 import Search from "./Component/Product/Search";
+import LoginSignUp from "./Component/User/LoginSignUp";
 
 function App() {
 React.useEffect(() => {
@@ -28,6 +29,9 @@ React.useEffect(() => {
       <Route path="/products" element={<Products/>}/>
       <Route path="/search" element={<Search/>}/>
       <Route path="/products/:keyword" element={<Products/>}/>
+
+      <Route path="/login" element={<LoginSignUp/>} />
+
       </Routes>
       
       <Footer/>
