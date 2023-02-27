@@ -18,6 +18,7 @@ const options = {
   navColor1: "white",
   logoHoverSize: "10px",
   logoHoverColor: "#eb4034",
+  nav1Transition:'0.4',
   link1Text: "Home",
   link2Text: "Products",
   link3Text: "Contact",
@@ -28,6 +29,11 @@ const options = {
   link4Url: "/about",
   link1Size: "1.3vmax",
   link1Color: "rgba(35, 35, 35,0.8)",
+  link1Transition :'0.2',
+  link1AnimationTime:'0.2',
+  link2AnimationTime:'0.2',
+  link3AnimationTime:'0.2',
+  link4AnimationTime:'0.2',
   nav1justifyContent: "flex-end",
   nav2justifyContent: "flex-end",
   nav3justifyContent: "flex-start",
@@ -42,6 +48,10 @@ const options = {
   searchIconColorHover: "#eb4034",
   cartIconColorHover: "#eb4034",
   cartIconMargin: "1vmax",
+  searchIconAnimationTime:"0.2",                            
+  cartIconAnimationTime : "0.2",                        
+  profileIconAnimationTime :  "0.2",
+  logoAnimationTime :"0.0000001"     
 };
 
 const Header = () => {

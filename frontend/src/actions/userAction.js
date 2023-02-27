@@ -64,9 +64,7 @@ import {
       dispatch({ type: REGISTER_USER_REQUEST });
   
       const config = { headers: { "Content-Type": "multipart/form-data" } };
-      console.log("Hello")
       const { data } = await axios.post(`http://localhost:4000/api/v1/register`, userData, config);
-      console.log(data, "data")
   
       dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
     } catch (error) {
@@ -83,6 +81,7 @@ import {
       dispatch({ type: LOAD_USER_REQUEST });
   
       const { data } = await axios.get(`http://localhost:4000/api/v1/me`);
+      console.log(data, "data")
   
       dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
     } catch (error) {

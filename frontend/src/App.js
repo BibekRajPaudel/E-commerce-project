@@ -10,6 +10,8 @@ import ProductDetails from "./Component/Product/ProductDetails.js"
 import Products from "./Component/Product/Products";
 import Search from "./Component/Product/Search";
 import LoginSignUp from "./Component/User/LoginSignUp";
+import store from "./store"
+import { loadUser } from "./actions/userAction";
 
 function App() {
 React.useEffect(() => {
@@ -18,6 +20,7 @@ React.useEffect(() => {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
+    store.dispatch(loadUser());
 
   },[]);
   return (

@@ -30,8 +30,8 @@ const LoginSignUp = ({ }) => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState("../Layout/images/Profile");
-  const [avatarPreview, setAvatarPreview] = useState("../Layout/images/Profile");
+  const [avatar, setAvatar] = useState("../Layout/images/Profile.png");
+  const [avatarPreview, setAvatarPreview] = useState("../Layout/images/Profile.png");
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +47,6 @@ const LoginSignUp = ({ }) => {
     myForm.set("email", email);
     myForm.set("password", password);
     myForm.set("avatar", avatar);
-    console.log(myForm, "myForm")
     dispatch(register(myForm));
   };
 
