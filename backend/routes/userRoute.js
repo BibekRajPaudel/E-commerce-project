@@ -14,10 +14,11 @@ const {
   deleteUser,
 } = require("../controllers/userController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
+const upload = require("../utils.js/multer");
 
 const router = express.Router();
 
-router.route("/register").post(registerUser);
+router.post("/register", upload.single("avatar"), registerUser);
 router.route("/login").post(loginUser);
 router.route("/logout").post(logout);
 router.route("/password/forgot").post(forgotPassword);

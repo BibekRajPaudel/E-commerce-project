@@ -1,12 +1,13 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import Loader from "../Layout/Loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 
-const LoginSignUp = ({ history, location }) => {
+const LoginSignUp = ({ }) => {
+  const history = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -29,8 +30,8 @@ const LoginSignUp = ({ history, location }) => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState("/Profile.png");
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatar, setAvatar] = useState("../Layout/images/Profile");
+  const [avatarPreview, setAvatarPreview] = useState("../Layout/images/Profile");
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ const LoginSignUp = ({ history, location }) => {
     myForm.set("email", email);
     myForm.set("password", password);
     myForm.set("avatar", avatar);
+    console.log(myForm, "myForm")
     dispatch(register(myForm));
   };
 
@@ -66,7 +68,7 @@ const LoginSignUp = ({ history, location }) => {
     }
   };
 
-  const redirect = location.search ? location.search.split("=")[1] : "/account";
+  //const redirect = location.search ? location.search.split("=")[1] : "/account";
 
   useEffect(() => {
     if (error) {
@@ -75,9 +77,9 @@ const LoginSignUp = ({ history, location }) => {
     }
 
     if (isAuthenticated) {
-      history.push(redirect);
+      history("/account");
     }
-  }, [dispatch, error, alert, history, isAuthenticated, redirect]);
+  }, [dispatch, error, alert, history, isAuthenticated]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

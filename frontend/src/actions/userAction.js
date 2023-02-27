@@ -35,7 +35,7 @@ import {
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
     CLEAR_ERRORS,
-  } from "../constants/userConstants";
+  } from "../constants/userConstant";
   import axios from "axios";
   
   // Login
@@ -50,6 +50,7 @@ import {
         { email, password },
         config
       );
+
   
       dispatch({ type: LOGIN_SUCCESS, payload: data.user });
     } catch (error) {
@@ -63,8 +64,9 @@ import {
       dispatch({ type: REGISTER_USER_REQUEST });
   
       const config = { headers: { "Content-Type": "multipart/form-data" } };
-  
+      console.log("Hello")
       const { data } = await axios.post(`http://localhost:4000/api/v1/register`, userData, config);
+      console.log(data, "data")
   
       dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
     } catch (error) {
