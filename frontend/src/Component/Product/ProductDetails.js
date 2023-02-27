@@ -8,6 +8,7 @@ import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard";
 import Loader from "../Layout/Loader/Loader";
 import { useAlert } from "react-alert";
+import MetaData from "../Layout/metadata";
 
 const ProductDetails = ({ match }) => {
   const { id } = useParams()
@@ -36,7 +37,9 @@ const ProductDetails = ({ match }) => {
 
   return (
    <Fragment>
-    {loading?<Loader /> :( <Fragment>
+    {loading?<Loader /> :( 
+    <Fragment>
+      <MetaData title={`${product.name} -- ECOMMERCE`} />
       <div className="ProductDetails">
         <div>
           <Carousel>
