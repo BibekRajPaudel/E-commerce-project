@@ -38,7 +38,8 @@ import {
   } from "../constants/userConstant";
   import axios from "axios";
   import Cookies from 'js-cookie';
-  
+  const cookie = require('cookie');
+
   // Login
   export const login = (email, password) => async (dispatch) => {
     try {
@@ -83,10 +84,11 @@ import {
   // Load User
   export const loadUser = () => async (dispatch) => {
     try {
+      const token = Cookies.get('token');
       dispatch({ type: LOAD_USER_REQUEST });
   
-      const { data } = await axios.get(`http://localhost:4000/api/v1/me`);
-      console.log(data, "data")
+      const config = { headers: { 'Cookie': `Token=${token}` },  withCredentials: true };
+      const { data } = await axios.get(`http://localhost:4000/api/v1/me`, config);
   
       dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
     } catch (error) {
@@ -97,7 +99,8 @@ import {
   // Logout User
   export const logout = () => async (dispatch) => {
     try {
-      await axios.get(`http://localhost:4000/api/v1/logout`);
+      Cookies.remove('token')
+      await axios.post(`http://localhost:4000/api/v1/logout`);
   
       dispatch({ type: LOGOUT_SUCCESS });
     } catch (error) {
@@ -109,8 +112,9 @@ import {
   export const updateProfile = (userData) => async (dispatch) => {
     try {
       dispatch({ type: UPDATE_PROFILE_REQUEST });
+      const token = Cookies.get('token');
   
-      const config = { headers: { "Content-Type": "multipart/form-data" } };
+      const config = { headers: { "Content-Type": "multipart/form-data",  'Cookie': `Token=${token}` },  withCredentials: true };
   
       const { data } = await axios.put(`http://localhost:4000/api/v1/me/update`, userData, config);
   
@@ -118,7 +122,7 @@ import {
     } catch (error) {
       dispatch({
         type: UPDATE_PROFILE_FAIL,
-        payload: error.response.data.message,
+        payload: error,
       });
     }
   };
