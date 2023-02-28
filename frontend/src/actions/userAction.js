@@ -37,6 +37,7 @@ import {
     CLEAR_ERRORS,
   } from "../constants/userConstant";
   import axios from "axios";
+  import Cookies from 'js-cookie';
   
   // Login
   export const login = (email, password) => async (dispatch) => {
@@ -50,6 +51,10 @@ import {
         { email, password },
         config
       );
+      Cookies.set("token",data.token,  { httpOnly: false });
+     
+      //localStorage.setItem("token", data.token);
+     // const { token } = response.data;
 
   
       dispatch({ type: LOGIN_SUCCESS, payload: data.user });
