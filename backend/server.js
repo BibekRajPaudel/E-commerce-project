@@ -8,7 +8,7 @@ const connectDatabase = require("./config/database")
 
 
 //Config
-dotenv.config({path:"backend/config/.env"}) // config.env ko path
+dotenv.config({path:"backend/config/config.env"}) // config.env ko path
 
 //Connecting database
 connectDatabase()

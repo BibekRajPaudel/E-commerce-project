@@ -45,5 +45,5 @@
 *.app
 
 node_modules
-.env
+config.env
 
