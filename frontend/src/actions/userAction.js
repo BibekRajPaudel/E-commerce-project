@@ -114,7 +114,7 @@ import {
       dispatch({ type: UPDATE_PROFILE_REQUEST });
       const token = Cookies.get('token');
   
-      const config = { headers: { "Content-Type": "multipart/form-data",  'Cookie': `Token=${token}` },  withCredentials: true };
+      const config = { headers: { "Content-Type": "application/json",  'Cookie': `Token=${token}` },  withCredentials: true };
   
       const { data } = await axios.put(`http://localhost:4000/api/v1/me/update`, userData, config);
   
