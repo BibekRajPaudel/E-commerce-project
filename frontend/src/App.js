@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useState,useEffect, Fragment } from "react";
 import Header from "./Component/Layout/Header/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WebFont from "webfontloader";
@@ -23,16 +23,28 @@ import ResetPassword from "./Component/User/ResetPassword";
 import Cart from "./Component/Cart/Cart";
 import Shipping from "./Component/Cart/Shipping";
 import ConfirmOrder from "./Component/Cart/ConfirmOrder";
+import axios from "axios";
+import Payment from "./Component/Cart/Payment";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
-  React.useEffect(() => {
+
+
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
+  async function getStripeApiKey() {
+    const { data } = await axios.get("/api/v1/stripeapikey");
+
+    setStripeApiKey(data.stripeApiKey);
+  }
+  useEffect(() => {
     WebFont.load({
       google: {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
     store.dispatch(loadUser());
+    getStripeApiKey();
   }, []);
   return (
     <Router>
@@ -51,6 +63,8 @@ function App() {
 
          <Route path='/login/shipping' element={<ProtectedRoute><Shipping /> </ProtectedRoute> }/>
          <Route path='/order/confirm' element={<ProtectedRoute><ConfirmOrder /> </ProtectedRoute> }/>
+         <Route path='/process/payment' element={<ProtectedRoute><Payment /> </ProtectedRoute> }/>
+
 
 
         <Route path="/password/forgot" element={<ForgotPassword />} />
