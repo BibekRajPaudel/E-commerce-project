@@ -131,8 +131,9 @@ import {
   export const updatePassword = (passwords) => async (dispatch) => {
     try {
       dispatch({ type: UPDATE_PASSWORD_REQUEST });
+      const token = Cookies.get('token');
   
-      const config = { headers: { "Content-Type": "application/json" } };
+      const config = { headers: { "Content-Type": "application/json",  'Cookie': `Token=${token}` },  withCredentials: true };
   
       const { data } = await axios.put(
         `http://localhost:4000/api/v1/password/update`,
