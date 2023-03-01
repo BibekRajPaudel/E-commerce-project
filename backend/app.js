@@ -3,6 +3,7 @@ const app = express()
 const errorMiddleWare = require("./middleware/error")
 const cookieParser = require("cookie-parser")
 const cors = require("cors");
+const dotenv = require("dotenv")
 
 const corsOptions = {
     origin: 'http://localhost:3000',
@@ -14,6 +15,8 @@ const corsOptions = {
 
 app.use(express.json())
 app.use(cookieParser())
+
+dotenv.config({path:"backend/config/config.env"}) 
 
 //Route Imports
 const product = require("./routes/productRoute")
