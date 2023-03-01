@@ -167,17 +167,47 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 
 // update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+ 
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
   };
 
-  const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user._id);
+
+    
+    const imageId = user.avatar.public_id;
+    
+    await cloudinary.v2.uploader.destroy(imageId);
+    
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar);
+
+    newUserData.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   });
-  sendToken(user, 200, res);
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+// Get all users(admin)
+exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
 });
 
 // Get all users(admin)
