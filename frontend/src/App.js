@@ -35,6 +35,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Cookies from "js-cookie";
 import OrderSuccess from "./Component/Cart/OrderSuccess";
+import MyOrders from "./Component/Order/MyOrders";
+import OrderDetails from "./Component/Order/OrderDetails";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -136,6 +138,27 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          exact
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <MyOrders />{" "}
+            </ProtectedRoute>
+          }
+        />
+
+          <Route
+          exact
+          path="/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetails />{" "}
+            </ProtectedRoute>
+          }
+        />
+
 
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
