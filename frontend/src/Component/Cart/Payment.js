@@ -17,14 +17,13 @@ import "./payment.css";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import EventIcon from "@material-ui/icons/Event";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import { createOrder, clearErrors } from "../../actions/orderAction";
 import { Link, useNavigate } from "react-router-dom";
+import { createOrder, clearErrors } from "../../actions/orderAction";
+import Cookies from "js-cookie";
 
-
-const Payment = ({  }) => {
-    const history = useNavigate();
+const Payment = ({}) => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-
+  const history = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
   const stripe = useStripe();
@@ -54,13 +53,14 @@ const Payment = ({  }) => {
     payBtn.current.disabled = true;
 
     try {
+      const token = Cookies.get("token");
       const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { Cookie: `Token=${token}` },
+        withCredentials: true,
       };
+
       const { data } = await axios.post(
-        "/api/v1/payment/process",
+        "http://localhost:4000/api/v1/payment/process",
         paymentData,
         config
       );
@@ -85,6 +85,7 @@ const Payment = ({  }) => {
           },
         },
       });
+      console.log(result, "result");
 
       if (result.error) {
         payBtn.current.disabled = false;
@@ -139,7 +140,7 @@ const Payment = ({  }) => {
 
           <input
             type="submit"
-            value={`Pay - ₹${orderInfo && orderInfo.totalPrice}`}
+            value={`Pay - Rs${orderInfo && orderInfo.totalPrice}`}
             ref={payBtn}
             className="paymentFormBtn"
           />

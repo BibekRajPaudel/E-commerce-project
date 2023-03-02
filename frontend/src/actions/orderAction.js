@@ -21,17 +21,15 @@ import {
   } from "../constants/orderConstant";
   
   import axios from "axios";
+  import Cookies from 'js-cookie';
   
+  const token = Cookies.get('token');
+  const config = { headers: { 'Cookie': `Token=${token}` },  withCredentials: true };
+
   // Create Order
   export const createOrder = (order) => async (dispatch) => {
     try {
       dispatch({ type: CREATE_ORDER_REQUEST });
-  
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
       const { data } = await axios.post("http:localhost:4000/api/v1/order/new", order, config);
   
       dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
@@ -48,7 +46,7 @@ import {
     try {
       dispatch({ type: MY_ORDERS_REQUEST });
   
-      const { data } = await axios.get("http://localhost:4000/api/v1/orders/me");
+      const { data } = await axios.get("http://localhost:4000/api/v1/orders/me", config);
   
       dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
     } catch (error) {
@@ -64,7 +62,7 @@ import {
     try {
       dispatch({ type: ALL_ORDERS_REQUEST });
   
-      const { data } = await axios.get("http://localhost:4000/api/v1/admin/orders");
+      const { data } = await axios.get("http://localhost:4000/api/v1/admin/orders". config);
   
       dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
     } catch (error) {

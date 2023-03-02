@@ -38,7 +38,7 @@ import {
   } from "../constants/userConstant";
   import axios from "axios";
   import Cookies from 'js-cookie';
-  const cookie = require('cookie');
+
 
   // Login
   export const login = (email, password) => async (dispatch) => {
@@ -84,9 +84,9 @@ import {
   // Load User
   export const loadUser = () => async (dispatch) => {
     try {
-      const token = Cookies.get('token');
       dispatch({ type: LOAD_USER_REQUEST });
-  
+      
+      const token = Cookies.get('token');
       const config = { headers: { 'Cookie': `Token=${token}` },  withCredentials: true };
       const { data } = await axios.get(`http://localhost:4000/api/v1/me`, config);
   
