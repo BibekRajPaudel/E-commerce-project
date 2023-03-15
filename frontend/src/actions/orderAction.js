@@ -72,8 +72,14 @@ export const getAllOrders = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_ORDERS_REQUEST });
 
+    const token = Cookies.get("token");
+    const config = {
+      headers: { Cookie: `Token=${token}` },
+      withCredentials: true,
+    };
+
     const { data } = await axios.get(
-      "http://localhost:4000/api/v1/admin/orders"
+      "http://localhost:4000/api/v1/admin/orders", config
     );
 
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });

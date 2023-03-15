@@ -37,6 +37,7 @@ import Cookies from "js-cookie";
 import OrderSuccess from "./Component/Cart/OrderSuccess";
 import MyOrders from "./Component/Order/MyOrders";
 import OrderDetails from "./Component/Order/OrderDetails";
+import Dashboard from "./Component/Admin/DashBoard";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -81,7 +82,7 @@ function App() {
           path="/account"
           element={
             <ProtectedRoute>
-              <Profile />{" "}
+              <Profile />
             </ProtectedRoute>
           }
         />
@@ -89,7 +90,7 @@ function App() {
           path="/me/update"
           element={
             <ProtectedRoute>
-              <UpdateProfile />{" "}
+              <UpdateProfile />
             </ProtectedRoute>
           }
         />
@@ -97,7 +98,7 @@ function App() {
           path="/password/update"
           element={
             <ProtectedRoute>
-              <UpdatePassword />{" "}
+              <UpdatePassword />
             </ProtectedRoute>
           }
         />
@@ -105,7 +106,7 @@ function App() {
           path="/login/shipping"
           element={
             <ProtectedRoute>
-              <Shipping />{" "}
+              <Shipping />
             </ProtectedRoute>
           }
         />
@@ -113,7 +114,7 @@ function App() {
           path="/order/confirm"
           element={
             <ProtectedRoute>
-              <ConfirmOrder />{" "}
+              <ConfirmOrder />
             </ProtectedRoute>
           }
         />
@@ -134,7 +135,7 @@ function App() {
           path="/success"
           element={
             <ProtectedRoute>
-              <OrderSuccess />{" "}
+              <OrderSuccess />
             </ProtectedRoute>
           }
         />
@@ -144,7 +145,7 @@ function App() {
           path="/orders"
           element={
             <ProtectedRoute>
-              <MyOrders />{" "}
+              <MyOrders />
             </ProtectedRoute>
           }
         />
@@ -154,11 +155,20 @@ function App() {
           path="/order/:id"
           element={
             <ProtectedRoute>
-              <OrderDetails />{" "}
+              <OrderDetails />
             </ProtectedRoute>
           }
         />
 
+          <Route
+          exact
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />

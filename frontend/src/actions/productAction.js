@@ -103,6 +103,29 @@ export const newReview = (reviewData) => async (dispatch) => {
   }
 };
 
+// Get All Products For Admin
+export const getAdminProduct = () => async (dispatch) => {
+  try {
+    dispatch({ type: ADMIN_PRODUCT_REQUEST });
+    const token = Cookies.get('token');
+    const config = { headers: {"Content-Type": "application/json", 'Cookie': `Token=${token}`},  withCredentials: true };
+
+    const { data } = await axios.get("http://localhost:4000/api/v1/products", config);
+
+    dispatch({
+      type: ADMIN_PRODUCT_SUCCESS,
+      payload: data.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_PRODUCT_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
