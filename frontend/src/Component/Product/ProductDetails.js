@@ -4,7 +4,6 @@ import "./ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProductDetails, newReview } from "../../actions/productAction";
 import { useParams } from "react-router-dom";
-import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard";
 import Loader from "../Layout/Loader/Loader";
 import { useAlert } from "react-alert";
@@ -49,12 +48,10 @@ const ProductDetails = ({  }) => {
   }, [dispatch, id, error, alert, reviewError, success]);
 
   const options = {
-    edit: false,
-    color: "rgba(20,20,20,0.1)",
-    activeColor: "tomato",
-    size: window.innerWidth < 600 ? 20 : 25,
+    size: "normal",
     value: product.ratings,
-    isHalf: true,
+    readOnly:true,
+    precision: 0.5
   };
 
   const [quantity, setQuantity] = useState(1);
@@ -124,7 +121,7 @@ const ProductDetails = ({  }) => {
             <p>Product # {product._id}</p>
           </div>
           <div className="detailsBlock-2">
-            <ReactStars {...options} />
+            <Rating {...options} />
             <span className="detailsBlock-2-span">
               {" "}
               ({product.numOfReviews} Reviews)
