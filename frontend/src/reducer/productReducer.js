@@ -20,6 +20,7 @@ import {
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
+  NEW_REVIEW_RESET,
   ALL_REVIEW_REQUEST,
   ALL_REVIEW_SUCCESS,
   ALL_REVIEW_FAIL,
@@ -106,7 +107,12 @@ export const newReviewReducer = (state = {}, action) => {
         ...state,
         loading: false,
         error: action.payload,
-      }
+      };
+    case NEW_REVIEW_RESET:
+      return {
+        ...state,
+        success: false,
+      };
     case CLEAR_ERRORS:
       return {
         ...state,

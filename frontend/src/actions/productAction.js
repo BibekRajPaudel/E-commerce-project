@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import {
   ALL_PRODUCT_FAIL,
   ALL_PRODUCT_REQUEST,
@@ -30,30 +28,34 @@ import {
   DELETE_REVIEW_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstant";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 // Get All Products
-export const getProduct = (keyword = "", currentPage=1, price = [0,25000], category, ratings) => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_PRODUCT_REQUEST });
-    let link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`
+export const getProduct =
+  (keyword = "", currentPage = 1, price = [0, 25000], category, ratings) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PRODUCT_REQUEST });
+      let link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
 
-    if (category) {
-      link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
+      if (category) {
+        link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
+      }
+
+      const { data } = await axios.get(link);
+
+      dispatch({
+        type: ALL_PRODUCT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_PRODUCT_FAIL,
+        payload: error.response.data.message,
+      });
     }
-
-    const { data } = await axios.get(link);
-  
-    dispatch({
-      type: ALL_PRODUCT_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_PRODUCT_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+  };
 
 // Get Products Detail
 export const getProductDetails = (id) => async (dispatch) => {
@@ -62,7 +64,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     const { data } = await axios.get(
       `http://localhost:4000/api/v1/product/${id}`
     );
-  
+
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: data,
@@ -80,11 +82,14 @@ export const newReview = (reviewData) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
 
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const token = Cookies.get('token');
+    const config = { headers: {"Content-Type": "application/json", 'Cookie': `Token=${token}`},  withCredentials: true };
 
-    const { data } = await axios.put(`http://localhost:4000/api/v1/review`, reviewData, config);
+    const { data } = await axios.put(
+      `http://localhost:4000/api/v1/review`,
+      reviewData,
+      config
+    );
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,

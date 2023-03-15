@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, getProductDetails } from "../../actions/productAction";
+import { clearErrors, getProductDetails, newReview } from "../../actions/productAction";
 import { useParams } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard";
@@ -18,13 +18,17 @@ import {
   Button,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
+import { NEW_REVIEW_RESET } from "../../constants/productConstant";
 
-const ProductDetails = ({ match }) => {
+const ProductDetails = ({  }) => {
   const { id } = useParams()
   const dispatch = useDispatch();
   const alert = useAlert()
 
   const { product, loading, error } = useSelector((state) => state.productDetails);
+  const { success, error: reviewError } = useSelector(
+    (state) => state.newReview
+  );
 
 
   useEffect(() => {
@@ -32,8 +36,17 @@ const ProductDetails = ({ match }) => {
       alert.error(error)
       dispatch(clearErrors())
     }
+    if (reviewError) {
+      alert.error(reviewError);
+      dispatch(clearErrors());
+    }
+    if (success) {
+      alert.success("Review Submitted Successfully");
+      dispatch({ type: NEW_REVIEW_RESET });
+    }
+
     dispatch(getProductDetails(id));
-  }, [dispatch, id, error, alert]);
+  }, [dispatch, id, error, alert, reviewError, success]);
 
   const options = {
     edit: false,
@@ -77,9 +90,10 @@ const ProductDetails = ({ match }) => {
 
     myForm.set("rating", rating);
     myForm.set("comment", comment);
-    myForm.set("productId", match.params.id);
+    myForm.set("productId", id);
 
-    //dispatch(newReview(myForm));
+    console.log(myForm,"afdadfdf")
+    dispatch(newReview(myForm));
 
     setOpen(false);
   };
