@@ -6,7 +6,7 @@ const cors = require("cors");
 const dotenv = require("dotenv")
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'http://192.168.1.79:3000',
     credentials: true
   };
   
